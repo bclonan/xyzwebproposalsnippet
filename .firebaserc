@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "xyzfunnel"
+  },
+  "targets": {
+    "xyzfunnel": {
+      "hosting": {
+        "xyzwebsiteproposal": [
+          "xyz-web-proposal"
+        ]
+      }
+    }
+  }
+}

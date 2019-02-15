@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "userNotifications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "fromUser",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "inviteTime",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "userNotifications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "toUser",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "inviteTime",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

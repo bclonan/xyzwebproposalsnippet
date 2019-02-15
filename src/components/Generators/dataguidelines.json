@@ -1,0 +1,27 @@
+[{
+	"category_description": "Find some cool blogs here",
+	"category_name": "Writing",
+	"category_thumb": "https://bulma.io/images/placeholders/800x480.png",
+	"category_title": "Writing and Blogs"
+}]
+
+
+[{
+	"author": "Phylat",
+	"category": "writing",
+	"description": "this is a blog template",
+	"name": "Blog Website",
+	"thumb": "https://bulma.io/images/placeholders/800x480.png",
+	"url": "https://xyzleads.com"
+},
+{
+   "author": "Phylat",
+   "category": "Travel",
+   description: Travel website concept
+   name: Travel website
+   thumb : 
+   url : https://phylattg.com/websites/amp/travel/templates/travel.amp.html
+}
+
+
+]
