@@ -26,16 +26,16 @@ const settings = {
 };
 db.settings(settings);
 
-const leadWebPreview = db.collection('leadWebPreview');
+const leadWebProposal = db.collection('leadWebProposal');
 // storyData collection
-const webPreviewDataCollection = db.collection('wlogRespData');
+const webProposalDatacollection = db.collection('web_proposal_data');
 
 
 export {
   db,
   auth,
   currentUser,
-  leadWebPreview,
-  webPreviewDataCollection
+  leadWebProposal,
+  webProposalDatacollection
   
 };

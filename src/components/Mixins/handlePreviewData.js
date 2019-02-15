@@ -9,14 +9,17 @@ export const handlePreviewData = {
       ctaButton : null,
       ctaText : null,
       ctaLink : null,
-      currentViewMode: 'default'
+      currentViewMode: 'default',
+      firstPage : '',
+      proposalPageContent : null,
+      proposalPageDetails : null
 
     };
   },
   methods: {
     fetchPreviewData() {
       let lID = this.$route.params.id;
-      let previewCol = fb.leadWebPreview.doc(lID);
+      let previewCol = fb.leadWebProposal.doc(lID);
 
       previewCol.get()
         .then(doc => {
@@ -29,7 +32,7 @@ export const handlePreviewData = {
             
             let liveID = doc.data().live_id;
             let checkLive = doc.data().isLive;
-            let livDataColumn = fb.leadWebPreview.doc(lID).collection("live").doc(liveID);
+            let livDataColumn = fb.leadWebProposal.doc(lID).collection("live").doc(liveID);
             if(!checkLive){
                this.$router.push({
                   path: `/`
@@ -46,7 +49,9 @@ export const handlePreviewData = {
             this.templateName = doc.data().previewTitle;
             this.websiteList = doc.data().previewList;
             this.categoryList = doc.data().previewCategories;
-
+            this.firstPage = doc.data().proposalPageDetails[0].nav_id;
+            this.proposalPageContent = doc.data().proposalPageContent;
+            this.proposalPageDetails = doc.data().proposalPageDetails;
             this.ctaButton = doc.data().cta_button;
             this.ctaLink = doc.data().cta_link;
             this.ctaText = doc.data().cta_text;
