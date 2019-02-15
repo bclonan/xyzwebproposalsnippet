@@ -1,22 +1,17 @@
 <template>
 <body>
 <!-- preview header -->
-<nav class="level is-mobile" style="min-height: 75px;
+<nav class="level is-mobile has-shadow" style="min-height: 75px;
     background-color: orange;">
   <div class="level-item has-text-centered">
 <div class="field is-grouped">
   <p class="control">
-    <a class="button is-link">
-      Documents
-    </a>
-  </p>
-    <p class="control">
-    <a class="button">
-      Pricing
+    <a class="button is-link" @click.stop="selectDetails">
+      Details
     </a>
   </p>
   <p class="control">
-    <a class="button">
+    <a class="button" @click.stop="resetSite">
       Pages
     </a>
   </p>
@@ -46,7 +41,7 @@
     </div>
   </div>
 </nav>
-<nav class="level is-mobile" v-if="pageViewMode == true">
+<nav class="level is-mobile" v-if="pageViewMode == 'viewPage'">
   <div class="level-item has-text-centered is-size-4 sitename">
     {{previewData.name}}
   </div>
@@ -66,14 +61,14 @@
   </div>
   <div class="level-item has-text-centered">
     	<div>
-         <a class="button is-normal is-primary" @click.stop="resetSite">Return</a>
+         <a class="button is-normal is-primary" @click.stop="resetSite">Go Back</a>
       </div>
   </div>
 </nav>
 
 <!--bottomsticky-->
 
-<nav class="level is-mobile bottominfo" v-if="pageViewMode == true">
+<nav class="level is-mobile bottominfo" v-if="pageViewMode == 'viewPage'">
   <div class="level-item has-text-centered" style="background: red;">
   <div>
       <p class="title is-size-1" style="color: white;">BEFORE</p>
@@ -87,21 +82,33 @@
 </nav>
 
 <!--/bottomsticky-->
-  <div class="preview-body">  
-<PreviewPageGenerator v-if="pageViewMode == true"
+
+<!-- pages and page view generator-->
+<div class="preview-body">  
+<PreviewPageGenerator v-if="pageViewMode == 'viewPage'"
 :currentViewMode="currentViewMode"
 :previewData="previewData" />
-
-
-<CategoryListGenerator v-else 
+<CategoryListGenerator v-else-if="pageViewMode == 'pages'" 
   :categoryList="categoryList" 
   :websiteList="websiteList"
   @preview="selectPreviewUrl"
   @filterCategories="filterCats"
   />
+</div>
+<!-- /pages and page view generator-->
+<!-- Proposal generator-->
+<PropPagegenerator v-if="pageViewMode == 'details'" 
+:firstPage="firstPage"
+:proposalPageDetails="proposalPageDetails"
+:proposalPageContent="proposalPageContent"
+@changeProposalPage="propPage"
+ />
 
 
-  </div>
+<!-- /Proposal generator-->
+<!-- Pricing generator-->
+
+<!-- /Pricing generator-->
  </body>
  
 </template>
@@ -110,54 +117,94 @@
 const uuidv1 = require('uuid/v1');
 //Page Element Generators
 //Handle editing story
-import { handlePreviewData } from "@/components/Mixins/handlePreviewData";
+import {
+    handlePreviewData
+} from "@/components/Mixins/handlePreviewData";
 //Page Preview
 import PreviewPageGenerator from "@/components/Generators/PreviewPageGenerator.vue";
 //Category List
 import CategoryListGenerator from "@/components/Generators/CategoryListGenerator.vue";
-
+//Page Proposal
+import PropPagegenerator from "@/components/Generators/ProposalPageGenerator.vue";
 export default {
-  name: 'PreviewMode',
-  mixins: [handlePreviewData],
-  components: {
-    PreviewPageGenerator,
-    CategoryListGenerator
-  },
-  data() {
-    return {
-      trackVisId: uuidv1(),
-      previewURL : null,
-      templateName : null,
-      showTemplates : true,
-      choosenCategory : null,
-      pageViewMode : false
-    };
-  },
-  methods: {
-    selectPreviewMode() {
-      //console.log(event.target.value);
-      // alert(event.target.selectedIndex);
+    name: 'PreviewMode',
+    mixins: [handlePreviewData],
+    components: {
+        PreviewPageGenerator,
+        CategoryListGenerator,
+        PropPagegenerator
     },
-    filterCats(category) {
-       //later todo fix and add
-       this.choosenCategory = category;
+    data() {
+        return {
+            trackVisId: uuidv1(),
+            previewURL: null,
+            templateName: null,
+            showTemplates: true,
+            choosenCategory: null,
+            pageViewMode: 'pages',
+            firstPage: '1',
+            proposalPageContent: [{
+                    page: '1',
+                    block: 'text',
+                    content: '# Marked in the browser\n\nRendered by **marked**.'
+                },
+                {
+                    page: '1',
+                    block: 'image',
+                    content: '# Marked in the browser\n\nRendered by **marked**.'
+                },
+                {
+                    page: '2',
+                    block: 'image',
+                    content: '# shouldnt be here at all\n\n\n## whoah'
+                },
+            ],
+            proposalPageDetails: [{
+                    name: 'Home',
+                    nav_id: '1',
+                    page: '1'
+                },
+                {
+                    name: 'Pricing',
+                    nav_id: '2',
+                    page: '2'
+                }
+            ]
+        };
     },
-    selectPreviewUrl(i) {
+    methods: {
+        selectPreviewMode() {
+            //console.log(event.target.value);
+            // alert(event.target.selectedIndex);
+        },
+        filterCats(category) {
+            //later todo fix and add
+            this.choosenCategory = category;
+        },
+        selectPreviewUrl(i) {
 
-      this.pageViewMode = true;
-      this.previewData = i;
-    },
-    changeViewMode(mode) {
-      this.currentViewMode = mode;
-    },
-    templateControls(templateMode){
-      this.showTemplates = templateMode;
-    },
-    resetSite(){
-         this.pageViewMode = false;
-         this.previewData = null;
+            this.pageViewMode = 'viewPage';
+            this.previewData = i;
+        },
+        changeViewMode(mode) {
+            this.currentViewMode = mode;
+        },
+        templateControls(templateMode) {
+            this.showTemplates = templateMode;
+        },
+        resetSite() {
+            this.pageViewMode = 'pages';
+            this.previewData = null;
+        },
+        selectDetails() {
+
+            this.pageViewMode = 'details';
+        },
+        propPage(propPageId) {
+            this.firstPage = propPageId;
+            return;
+        }
     }
-  }
 }
 </script>
 
