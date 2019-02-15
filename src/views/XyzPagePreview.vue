@@ -1,35 +1,92 @@
 <template>
 <body>
 <!-- preview header -->
-  <div class="preview-header">
-    <h1 class="title is-3 has-text-weight-light" v-if="templateName && pageViewMode == false">{{templateName}}</h1>
-    <h1 class="title is-3 has-text-weight-light" v-else-if="pageViewMode == true">{{previewData.name}}
-
-     <a class="button is-normal is-primary" @click.stop="resetSite">Return</a>
-    </h1>
-    <h1 class="title is-3 has-text-weight-light" v-else>Website Previewer</h1>
-    <div class="preview-icons is-hidden-mobile">
-      <a @click.stop="changeViewMode('default')" :class="[ currentViewMode == 'default' ? 'is-active' : '']">
-        <svg width="27" height="19" viewBox="0 0 27 19" xmlns="http://www.w3.org/2000/svg">
-          <path fill="none" stroke="currentColor" d="M7 18.5h13"></path>
-          <path fill="currentColor" d="M26 1v15H1V1h25m1-1H0v17h27V0z"></path>
-        </svg>
-      </a>
-      <a @click.stop="changeViewMode('is-tablet')" :class="[ currentViewMode == 'is-tablet' ? 'is-active' : '']" data-screen-size="tablet">
-        <svg width="14" height="19" viewBox="0 0 14 19" xmlns="http://www.w3.org/2000/svg">
-          <path fill="currentColor" d="M13 1v17H1V1h12m1-1H0v19h14V0z"></path>
-        </svg>
-      </a>
-      <a @click.stop="changeViewMode('is-mobile')" :class="[ currentViewMode == 'is-mobile' ? 'is-active' : '']" data-screen-size="mobile">
-        <svg width="10" height="17" viewBox="0 0 10 17" xmlns="http://www.w3.org/2000/svg">
-          <path fill="currentColor" d="M9 1v15H1V1h8m1-1H0v17h10V0z"></path>
-        </svg>
-      </a>
-    </div>
-    	<div>
-    	<a v-if="ctaButton" :href="ctaLink" class="preview-buy button is-primary">{{ctaText}}</a>
-	</div>
+<nav class="level is-mobile" style="min-height: 75px;
+    background-color: orange;">
+  <div class="level-item has-text-centered">
+<div class="field is-grouped">
+  <p class="control">
+    <a class="button is-link">
+      Documents
+    </a>
+  </p>
+    <p class="control">
+    <a class="button">
+      Pricing
+    </a>
+  </p>
+  <p class="control">
+    <a class="button">
+      Pages
+    </a>
+  </p>
+</div>
   </div>
+  <div class="level-item has-text-centered">
+  <div>
+      <p class="title is-size-1" style="color: white;">{{templateName}}</p>
+    </div>
+  </div>
+
+  <div class="level-item has-text-centered">
+    
+    <div>
+      <div class="field is-grouped">
+  <p class="control">
+    <a class="button is-link">
+      Suggest Friend
+    </a>
+  </p>
+  <p class="control">
+    <a v-if="ctaButton" :href="ctaLink" class="button is-medium preview-buy button is-primary">
+      Pages
+    </a>
+  </p>
+</div>
+    </div>
+  </div>
+</nav>
+<nav class="level is-mobile" v-if="pageViewMode == true">
+  <div class="level-item has-text-centered is-size-4 sitename">
+    {{previewData.name}}
+  </div>
+  <div class="level-item has-text-centered">
+    <div>
+      <span class="icon is-medium" @click.stop="changeViewMode('default')" :class="[ currentViewMode == 'default' ? 'is-active' : '']">
+<i class="fas fa-laptop"></i>
+</span>
+      <span class="icon is-medium" @click.stop="changeViewMode('is-tablet')" :class="[ currentViewMode == 'is-tablet' ? 'is-active' : '']">
+<i class="fas fa-tablet"></i>
+</span>
+      <span class="icon is-medium" @click.stop="changeViewMode('is-mobile')" :class="[ currentViewMode == 'is-mobile' ? 'is-active' : '']">
+<i class="fas fa-mobile"></i>
+</span>
+
+    </div>
+  </div>
+  <div class="level-item has-text-centered">
+    	<div>
+         <a class="button is-normal is-primary" @click.stop="resetSite">Return</a>
+      </div>
+  </div>
+</nav>
+
+<!--bottomsticky-->
+
+<nav class="level is-mobile bottominfo" v-if="pageViewMode == true">
+  <div class="level-item has-text-centered" style="background: red;">
+  <div>
+      <p class="title is-size-1" style="color: white;">BEFORE</p>
+    </div>
+  </div>
+  <div class="level-item has-text-centered" style="background: green;">
+  <div>
+      <p class="title is-size-1" style="color: white;">AFTER</p>
+    </div>
+  </div>
+</nav>
+
+<!--/bottomsticky-->
   <div class="preview-body">  
 <PreviewPageGenerator v-if="pageViewMode == true"
 :currentViewMode="currentViewMode"
@@ -229,6 +286,37 @@ html {
 }
 
 
+.pagename {
+    font-size: 1.5em;
+    margin-bottom: .6666em;
+    color: #363636;
+    font-weight: 600;
+    line-height: 1.125;
+   
+}
 
+.sitename {
+  text-decoration: underline;
+}
 
+  .frameA>* {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    border: 0;
+}
+
+  .frameB>* {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    border: 0;
+}
+
+.bottominfo {
+    z-index: 9999;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
 </style>
