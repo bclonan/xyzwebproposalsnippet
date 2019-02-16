@@ -48,10 +48,9 @@ export const handlePreviewData = {
              } else {
             this.templateName = doc.data().previewTitle;
             this.websiteList = doc.data().previewList;
-            this.categoryList = doc.data().previewCategories;
             this.firstPage = doc.data().proposalPageDetails[0].nav_id;
-            this.proposalPageContent = doc.data().proposalPageContent;
-            this.proposalPageDetails = doc.data().proposalPageDetails;
+           this.proposalPageContent = doc.data().proposalPageContent;
+           this.proposalPageDetails = doc.data().proposalPageDetails;
             this.ctaButton = doc.data().cta_button;
             this.ctaLink = doc.data().cta_link;
             this.ctaText = doc.data().cta_text;

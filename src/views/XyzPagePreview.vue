@@ -27,7 +27,7 @@
           <div class="field is-grouped">
             <p class="control">
               <a v-if="ctaButton" :href="ctaLink" class="button is-medium preview-buy button is-primary">
-              {{cta_text}}
+              {{ctaText}}
               </a>
             </p>
           </div>
@@ -77,10 +77,8 @@
         :currentViewMode="currentViewMode"
         :previewData="previewData" />
       <CategoryListGenerator v-else-if="pageViewMode == 'pages'" 
-        :categoryList="categoryList" 
         :websiteList="websiteList"
         @preview="selectPreviewUrl"
-        @filterCategories="filterCats"
         />
     </div>
     <!-- /pages and page view generator-->
@@ -124,46 +122,16 @@ export default {
             previewURL: null,
             templateName: null,
             showTemplates: true,
-            choosenCategory: null,
             pageViewMode: 'pages',
             firstPage: '1',
-            proposalPageContent: [{
-                    page: '1',
-                    block: 'text',
-                    content: '# Marked in the browser\n\nRendered by **marked**.'
-                },
-                {
-                    page: '1',
-                    block: 'image',
-                    content: '# Marked in the browser\n\nRendered by **marked**.'
-                },
-                {
-                    page: '2',
-                    block: 'image',
-                    content: '# shouldnt be here at all\n\n\n## whoah'
-                },
-            ],
-            proposalPageDetails: [{
-                    name: 'Home',
-                    nav_id: '1',
-                    page: '1'
-                },
-                {
-                    name: 'Pricing',
-                    nav_id: '2',
-                    page: '2'
-                }
-            ]
+            proposalPageContent: [{}],
+            proposalPageDetails: [{}],
         };
     },
     methods: {
         selectPreviewMode() {
             //console.log(event.target.value);
             // alert(event.target.selectedIndex);
-        },
-        filterCats(category) {
-            //later todo fix and add
-            this.choosenCategory = category;
         },
         selectPreviewUrl(i) {
 
