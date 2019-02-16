@@ -13,14 +13,18 @@
     </aside>
     <div class="container column is-10">
        
-      <div class="section" v-html="previewText">
+      <div class="section" >
+        <markdown-it-vue class="md-body" :content="previewText"/>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-var marked = require('marked');
+
+import MarkdownItVue from 'markdown-it-vue'
+
+
 export default {
     name: 'proposalPageGenerator',
     props: ['firstPage', 'proposalPageDetails', 'proposalPageContent'],
@@ -30,6 +34,9 @@ export default {
             activePage: ''
         }
     },
+      components: {
+    MarkdownItVue
+  },
     methods: {
         changePage(pageID) {
             this.$emit('changeProposalPage', pageID);
@@ -52,7 +59,7 @@ export default {
             });
 
             console.log(content.join(''))
-            marked.setOptions({
+            /*md.setOptions({
                 renderer: new marked.Renderer(),
                 gfm: true,
                 tables: true,
@@ -62,7 +69,8 @@ export default {
                 smartLists: true,
                 smartypants: false
             });
-            return marked(content.join(''))
+            var result = md.render(content.join(''));*/
+            return content.join('')
         },
         isCNav() {
             return this.firstPage;
@@ -72,5 +80,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("../../styles/md/gitmd.css");
+/*@import url("../../styles/md/gitmd.css");*/
+
 </style>
